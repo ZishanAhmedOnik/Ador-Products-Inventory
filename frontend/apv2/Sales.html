@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ADD SALES</title>
+
+	<link rel="stylesheet" href="css/kendo.common.min.css" >
+    <link rel="stylesheet" href="css/kendo.common-material.min.css" >
+    <link rel="stylesheet" href="css/kendo.material.min.css" >
+    <link rel="stylesheet" href="css/kendo.mobile.all.min.css" >
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/kendo.material.mobile.min.css" />
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/kendo.all.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/validator.min.js"></script>
+    <script src="js/notify.min.js"></script>
+    <script src="js/Sales/Sales.js"></script>
+    <script src="js/common.js"></script>
+</head>
+<body>
+	<div class="container" style="margin-top: 20px;" ng-app="salesApp" ng-controller="salesController">
+		<ul id="menu">
+            <li><a href="{{ menuUrl }}">STOCK</a></li>
+            <li><a href="{{ menuUrl }}Sales.html">SALES</a></li>
+            <li><a href="{{ menuUrl }}Supply.html">SUPPLY</a></li>
+            <li><a href="{{ menuUrl }}Outlet.html">OUTLET</a></li>
+            <li><a href="{{ menuUrl }}Product.html">PRODUCT</a></li>
+            <li><a href="{{ menuUrl }}Invoice.html">INVOICE</a></li>
+            <li><a href="{{ menuUrl }}InvoiceHistory.html">INVOICE RECORDS</a></li>
+        </ul>
+
+		<center><h1>ADD SALES</h1></center>
+		<div class="row">
+			<div class="col-sm-6" style="margin-bottom: 20px">
+				<label for="outletList">SELECT OUTLET:&nbsp;</label>
+				<input name="outletList" id="outletList" style="width: 300px; margin-left: 10px;">
+			</div>
+
+			<div class="col-sm-6">
+				<div style="float: right; margin-right: 50px;">
+					<label for="salesDate">SELECT DATE:&nbsp;</label>
+					<input id="salesDate" name="salesDate" onkeydown="return false;" >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div id="productListGrid"></div>
+			</div>
+
+			<div class="col-sm-6">
+				<div style="margin-top: 10px;" id="salesUpdateForm">
+					<table class="table">
+						<tr>
+							<td><label>ARTICLE #:</label></td>
+							<td><input type="text" onkeydown="return false;" name="article" required ng-model="Product.product_NUMBER"></td>
+						</tr>
+
+						<tr>
+							<td><label>PRODUCT NAME:&nbsp;</label></td>
+							<td><input type="text" onkeydown="return false;" name="product name" required ng-model="Product.product_NAME"></td>
+						</tr>
+
+						<tr>
+							<td><label>PRICE:&nbsp;</label></td>
+							<td><input type="text" onkeydown="return false;" name="price" required ng-model="Product.price"></td>
+						</tr>
+
+						<tr>
+							<td><label>CURRENT STOCK:</label></td>
+							<td><input placeholder="0" id="currentStock" onkeypress='return false;' name="currentStock" ng-model="currentStock" /></td>
+						</tr>
+
+						<tr>
+							<td><label>QUANTITY:</label></td>
+							<td><input required id="quantityInput" onkeypress='return isNumberKey(event);' placeholder="Enter Quantity" name="quantity" ng-model="Product.quantity" /></td>
+						</tr>
+
+						<tr>
+							<td><button type="button" id="submitButton" ng-click="SaveCommand()" style="width: 100px;" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;&nbsp;Save</button></td>
+						</tr>
+					</table>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<style type="text/css">
+		.k-grid-header .k-header
+		{
+			background-color: #0d47a1;
+			border: 0 !important;
+		}
+	</style>
+</body>
+</html>
+
+<script type="text/javascript">
+	function isNumberKey(evt){
+    	var charCode = (evt.which) ? evt.which : evt.keyCode;
+    	if(charCode == 46) {
+    		return true;
+    	}
+    	else return !(charCode > 31 && (charCode < 48 || charCode > 57));
+	}
+</script>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+
+	<link rel="stylesheet" href="css/kendo.common.min.css" >
+    <link rel="stylesheet" href="css/kendo.common-material.min.css" >
+    <link rel="stylesheet" href="css/kendo.material.min.css" >
+    <link rel="stylesheet" href="css/kendo.mobile.all.min.css" >
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/kendo.material.mobile.min.css" />
+
+    <!--<script src="js/angular.min.js"></script>-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/kendo.all.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/validator.min.js"></script>
+</head>
+<body>
+	<div ng-app="myapp" ng-controller="mycontroller">
+		<input type="text" ng-model="Product.product_NUMBER" name="">
+		<input type="text" ng-model="Product.product_NAME" name="">
+		<button ng-click="change()">change</button>
+	</div>
+
+	<div>
+		<div id="grid"></div>
+	</div>
+
+	<script type="text/javascript">
+		var app = angular.module("myapp", []);
+		app.controller("mycontroller", function($scope) {
+			$scope.Product = {
+				product_NUMBER: "",
+				product_NAME: ""
+			}
+
+			p = {};
+
+			$scope.change = function() {
+				obj = {};
+				angular.copy($scope.Product, obj);
+				obj.product_NUMBER = "a";
+				obj.product_NAME = "b";
+				angular.copy(obj, $scope.Product);
+			}
+
+			$('#grid').kendoGrid({
+				selectable: "true",
+				allowCopy: true,
+				columns: [
+					{
+						field: "product_NUMBER",
+						title: "PRODUCT NUMBER"
+					},
+					{
+						field: "product_NAME",
+						title: "PORDUCT NAME"
+					}
+				],
+				sortable: {
+					mode: "multiple",
+					allowUnsort: true
+				},
+				filterable: true,
+				pageable: {
+					refresh: true,
+					pageSizes: true,
+					buttonCount: 5
+				},
+				dataSource: {
+					transport: {
+						read: {
+							url: "http://localhost:8080/product/",
+							dataType: "json"
+						}
+					},
+					pageSize: 10
+				},
+				change: function(e) {
+					
+					angular.copy(this.dataItem(this.select()), p);
+
+					$scope.$apply(function() {
+						angular.copy(p, $scope.Product);
+						console.log(p);
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>
